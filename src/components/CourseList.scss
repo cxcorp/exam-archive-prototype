@@ -49,6 +49,11 @@
   font-size: 14px;
   border-bottom: 1px solid #e6e6e6;
   background: #fff;
+  cursor: pointer;
+
+  &:active {
+    background: #e0be57;
+  }
 
   &__icon {
     flex: 0 0 auto;
@@ -72,6 +77,11 @@
     border-bottom: 1px solid #c7c7c7;
   }
 
+  &:active &__name {
+    color: #fff;
+    border-bottom: none;
+  }
+
   &__last-modified {
     flex: 0 0 auto;
     box-sizing: border-box;
@@ -79,5 +89,9 @@
     color: #9b9b9d;
     margin: 0 15px 0 auto;
     padding-left: 10px; /* add some space in case the name is extra long */
+  }
+
+  &:active &__last-modified {
+    color: #fff;
   }
 }
