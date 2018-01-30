@@ -1,6 +1,5 @@
 import React from 'react'
 import * as R from 'ramda'
-import * as moment from 'moment'
 import * as classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import './CourseList.css'
@@ -47,16 +46,6 @@ const CourseListHeader = () => (
   </div>
 )
 
-const isNotNil = R.complement(R.isNil)
-
-const findLatestModifiedDate = documents => {
-  if (!documents) return null
-  const documentsTimestamps = R.pluck('lastModified')(documents).filter(
-    isNotNil
-  )
-  return moment.max(documentsTimestamps)
-}
-
 function findFirstNamesOfStartingLetter(courseNames) {
   const firstNames = new Set()
   let previous = courseNames[0].charAt(0)
@@ -72,7 +61,22 @@ function findFirstNamesOfStartingLetter(courseNames) {
   return firstNames
 }
 
-const CourseList = ({ courses, className }) => {
+const CourseListNothingFound = ({ className }) => (
+  <div className={classnames('course-list', className)}>No courses found.</div>
+)
+
+const CourseListLoading = ({ className }) => (
+  <div className={classnames('course-list', className)}>Loading...</div>
+)
+
+const CourseList = ({ courses, isLoading, className }) => {
+  if (isLoading) {
+    return <CourseListLoading className={classnames} />
+  }
+  if (!courses || courses.length === 0) {
+    return <CourseListNothingFound className={className} />
+  }
+
   const firstNamesOfStartingLetter = findFirstNamesOfStartingLetter(
     R.pluck('name')(courses)
   )
@@ -84,7 +88,7 @@ const CourseList = ({ courses, className }) => {
       className="course-list__course-list-item"
       key={course.name}
       name={course.name}
-      lastModified={findLatestModifiedDate(course.documents)}
+      lastModified={course.lastModified}
     >
       {/* Show alphabets to the left of the listing */
       shouldShowAlphabet(course.name) ? (

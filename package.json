@@ -4,7 +4,11 @@
   "private": true,
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "bluebird": "^3.5.1",
     "classnames": "^2.2.5",
+    "dotenv": "^5.0.0",
+    "koa": "^2.4.1",
+    "koa-router": "^7.4.0",
     "moment": "^2.20.1",
     "node-sass-chokidar": "0.0.3",
     "normalize.css": "^7.0.0",
@@ -17,11 +21,20 @@
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
+    "start-server": "nodemon --inspect server-proto/index.js",
     "start-js": "react-scripts start",
     "build": "npm run build-css && react-scripts build",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
+  },
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "proxy": "http://localhost:3005/"
 }
